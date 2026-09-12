@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { KeyRound, LockKeyhole, Plus, Settings, ShieldCheck, WandSparkles } from 'lucide-vue-next'
 import BrandLogo from './BrandLogo.vue'
+import SyncStatus from './SyncStatus.vue'
 
 const sections = [
   { label: '所有项目', icon: LockKeyhole, active: true },
@@ -31,7 +32,7 @@ const sections = [
         {{ item.label }}
       </a>
     </nav>
-    <p class="app-sidebar__status"><span aria-hidden="true" /> 已同步</p>
+    <SyncStatus class="app-sidebar__status" />
   </aside>
 </template>
 
@@ -83,18 +84,6 @@ const sections = [
 }
 
 .app-sidebar__status {
-  display: flex;
   margin: auto 10px 0;
-  align-items: center;
-  gap: 8px;
-  color: var(--color-text-secondary);
-  font-size: 12px;
-}
-
-.app-sidebar__status span {
-  width: 7px;
-  height: 7px;
-  border-radius: 50%;
-  background: var(--color-success);
 }
 </style>

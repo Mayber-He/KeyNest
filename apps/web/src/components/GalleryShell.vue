@@ -54,7 +54,7 @@ const viewports: ReadonlyArray<{
         <p class="gallery-shell__eyebrow">网页端</p>
         <h1>KeyNest 界面概览</h1>
       </div>
-      <div class="gallery-shell__viewports" aria-label="预览尺寸">
+      <div class="gallery-shell__viewports" role="group" aria-label="预览尺寸">
         <button
           v-for="option in viewports"
           :key="option.id"
