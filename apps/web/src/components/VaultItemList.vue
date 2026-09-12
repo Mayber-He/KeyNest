@@ -6,6 +6,10 @@ defineProps<{
   items: readonly VaultItem[]
   selectedId?: string
 }>()
+
+const emit = defineEmits<{
+  select: [id: string]
+}>()
 </script>
 
 <template>
@@ -23,6 +27,7 @@ defineProps<{
         type="button"
         :class="{ 'vault-list__item--active': selectedId === item.id }"
         :aria-pressed="selectedId === item.id"
+        @click="emit('select', item.id)"
       >
         <span class="vault-list__icon">
           <KeyRound v-if="item.kind === 'api-key'" :size="18" aria-hidden="true" />
