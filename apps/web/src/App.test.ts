@@ -17,5 +17,5 @@ it('renders the KeyNest gallery title and redirects to overview', async () => {
 
   expect(wrapper.text()).toContain('KeyNest 界面概览')
   expect(router.currentRoute.value.fullPath).toBe('/overview')
-  expect(wrapper.text()).toContain('Overview')
+  expect(wrapper.text()).toContain('登录 KeyNest')
 })
