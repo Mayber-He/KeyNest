@@ -17,17 +17,17 @@ const masterPassword = ref('')
         <h2>解锁密码库</h2>
         <p>输入主密码以继续查看本次会话中的项目。</p>
       </header>
-      <form @submit.prevent>
+      <form autocomplete="off" @submit.prevent>
         <AppInput
           v-model="masterPassword"
           label="主密码"
           type="password"
-          autocomplete="current-password"
+          autocomplete="off"
           placeholder="输入主密码"
         />
         <AppButton type="submit">解锁</AppButton>
       </form>
-      <p class="unlock-view__boundary">此页面不会验证或保存主密码。</p>
+      <p class="unlock-view__boundary">此静态预览不会提交或验证输入；浏览器扩展或密码管理器仍可能读取字段，请勿输入真实主密码。</p>
       <button class="unlock-view__account" type="button">切换账户</button>
     </div>
   </main>

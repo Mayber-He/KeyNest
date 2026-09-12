@@ -2,22 +2,30 @@
 import { onBeforeUnmount, ref } from 'vue'
 import { ExternalLink, KeyRound } from 'lucide-vue-next'
 import AppToast from '../../components/AppToast.vue'
+import ConfirmationDialog from '../../components/ConfirmationDialog.vue'
 import SensitiveField from '../../components/SensitiveField.vue'
 import type { VaultItem } from '../../data/demo-data'
 
-defineProps<{ item: VaultItem }>()
+const props = defineProps<{ item: VaultItem }>()
 
 const emit = defineEmits<{
   navigate: [url: string]
+  'delete-confirmed': [id: string]
 }>()
 
 const copied = ref(false)
+const confirmingDelete = ref(false)
 let copiedTimer: ReturnType<typeof setTimeout> | undefined
 
 function showCopied() {
   copied.value = true
   clearTimeout(copiedTimer)
   copiedTimer = setTimeout(() => (copied.value = false), 1800)
+}
+
+function confirmDelete() {
+  confirmingDelete.value = false
+  emit('delete-confirmed', props.item.id)
 }
 
 onBeforeUnmount(() => clearTimeout(copiedTimer))
@@ -48,8 +56,16 @@ onBeforeUnmount(() => clearTimeout(copiedTimer))
       <div><dt>最近更新</dt><dd>{{ item.updatedAt }}</dd></div>
     </dl>
 
-    <button class="item-detail__delete" type="button">删除此 API Key</button>
+    <button class="item-detail__delete" type="button" @click="confirmingDelete = true">删除此 API Key</button>
     <AppToast v-if="copied" class="item-detail__toast" message="已复制" tone="success" />
+    <ConfirmationDialog
+      v-if="confirmingDelete"
+      title="确认删除"
+      :description="`确定要删除 ${item.name} API Key 吗？此操作仅触发界面事件。`"
+      confirm-label="确认删除"
+      @cancel="confirmingDelete = false"
+      @confirm="confirmDelete"
+    />
   </article>
 </template>
 

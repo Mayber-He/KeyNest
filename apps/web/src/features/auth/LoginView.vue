@@ -16,16 +16,16 @@ const password = ref('')
         <h2>登录 KeyNest</h2>
         <p>访问你的密码库界面</p>
       </header>
-      <form @submit.prevent>
-        <AppInput v-model="email" label="邮箱" type="email" autocomplete="email" placeholder="name@example.com" />
-        <AppInput v-model="password" label="账户密码" type="password" autocomplete="current-password" placeholder="输入账户密码" />
+      <form autocomplete="off" @submit.prevent>
+        <AppInput v-model="email" label="邮箱" type="email" autocomplete="off" placeholder="name@example.com" />
+        <AppInput v-model="password" label="账户密码" type="password" autocomplete="off" placeholder="输入账户密码" />
         <div class="auth-view__form-meta">
           <label><input type="checkbox" /> 保持登录</label>
           <button type="button">忘记账户密码</button>
         </div>
         <AppButton type="submit">登录</AppButton>
       </form>
-      <p class="auth-view__boundary">输入内容不会被发送或保存。</p>
+      <p class="auth-view__boundary">此静态预览不会提交或验证输入；浏览器扩展或密码管理器仍可能读取字段，请勿输入真实凭据。</p>
       <p class="auth-view__switch">还没有账户？ <button type="button">创建账户</button></p>
     </div>
   </main>
