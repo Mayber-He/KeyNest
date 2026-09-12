@@ -15,3 +15,14 @@ it('keeps implementation helper copy outside the product frame', () => {
 
   expect(wrapper.get('[data-product-frame]').text()).not.toContain('下一阶段')
 })
+
+it('shows a product action after the new-item dialog is cancelled', async () => {
+  const wrapper = mount(OverviewView)
+
+  await wrapper.get('[data-page="new-item"]').trigger('click')
+  const cancel = wrapper.findAll('button').find((button) => button.text() === '取消')
+  await cancel!.trigger('click')
+
+  expect(wrapper.find('[role="dialog"]').exists()).toBe(false)
+  expect(wrapper.get('[data-product-frame]').text()).toContain('新建项目')
+})

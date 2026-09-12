@@ -1,11 +1,14 @@
 <script setup lang="ts">
-import { computed, ref } from 'vue'
+import { computed, onBeforeUnmount, ref } from 'vue'
 import { Copy, RefreshCw } from 'lucide-vue-next'
 import AppButton from '../../components/AppButton.vue'
 import AppSidebar from '../../components/AppSidebar.vue'
+import AppToast from '../../components/AppToast.vue'
 
 const length = ref(20)
 const revision = ref(0)
+const copied = ref(false)
+let copiedTimer: ReturnType<typeof setTimeout> | undefined
 const options = ref([
   { id: 'lowercase', label: '小写字母', enabled: true },
   { id: 'uppercase', label: '大写字母', enabled: true },
@@ -19,6 +22,14 @@ const output = computed(() => {
   const source = samples[revision.value % samples.length]
   return source.repeat(Math.ceil(length.value / source.length)).slice(0, length.value)
 })
+
+function showCopied() {
+  copied.value = true
+  clearTimeout(copiedTimer)
+  copiedTimer = setTimeout(() => (copied.value = false), 1800)
+}
+
+onBeforeUnmount(() => clearTimeout(copiedTimer))
 </script>
 
 <template>
@@ -34,7 +45,7 @@ const output = computed(() => {
       <section class="generator-view__output" aria-labelledby="generator-result">
         <span id="generator-result">生成结果</span>
         <output>{{ output }}</output>
-        <button type="button" aria-label="复制生成结果"><Copy :size="18" aria-hidden="true" /></button>
+        <button type="button" aria-label="复制生成结果" @click="showCopied"><Copy :size="18" aria-hidden="true" /></button>
       </section>
 
       <section class="generator-view__controls" aria-labelledby="generator-options">
@@ -55,13 +66,14 @@ const output = computed(() => {
           换一个示例
         </AppButton>
       </section>
+      <AppToast v-if="copied" class="generator-view__toast" message="已复制" tone="success" />
     </main>
   </div>
 </template>
 
 <style scoped>
 .generator-view { display: grid; min-height: 680px; grid-template-columns: 220px minmax(0, 1fr); }
-.generator-view main { width: min(100%, 720px); padding: 42px clamp(24px, 5vw, 64px); }
+.generator-view main { position: relative; width: min(100%, 720px); padding: 42px clamp(24px, 5vw, 64px); }
 .generator-view header p,
 .generator-view h2,
 .generator-view header span { margin: 0; }
@@ -81,6 +93,7 @@ const output = computed(() => {
 .generator-view fieldset label { display: flex; min-height: 48px; border-top: 1px solid var(--color-border); align-items: center; justify-content: space-between; gap: 16px; color: var(--color-text-secondary); font-size: 13px; }
 .generator-view fieldset input { width: 20px; height: 20px; accent-color: var(--color-brand); }
 .generator-view .app-button { display: inline-flex; justify-self: start; align-items: center; gap: 8px; }
+.generator-view__toast { position: absolute; right: 24px; bottom: 24px; }
 
 @container product-frame (max-width: 719px) {
   .generator-view { display: block; }
