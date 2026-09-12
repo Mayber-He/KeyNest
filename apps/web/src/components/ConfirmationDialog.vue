@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { useId } from 'vue'
+import { nextTick, onBeforeUnmount, onMounted, ref, useId } from 'vue'
 import AppButton from './AppButton.vue'
 
 withDefaults(
@@ -21,16 +21,59 @@ const emit = defineEmits<{
 const dialogId = useId()
 const titleId = `${dialogId}-title`
 const descriptionId = `${dialogId}-description`
+const dialog = ref<HTMLElement | null>(null)
+let trigger: HTMLElement | null = null
+
+function focusableElements() {
+  return Array.from(
+    dialog.value?.querySelectorAll<HTMLElement>(
+      'button:not([disabled]), [href], input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])',
+    ) ?? [],
+  )
+}
+
+function handleKeydown(event: KeyboardEvent) {
+  if (event.key === 'Escape') {
+    event.preventDefault()
+    emit('cancel')
+    return
+  }
+
+  if (event.key !== 'Tab') return
+
+  const focusable = focusableElements()
+  const first = focusable[0]
+  const last = focusable.at(-1)
+  if (!first || !last) return
+
+  if (event.shiftKey && document.activeElement === first) {
+    event.preventDefault()
+    last.focus()
+  } else if (!event.shiftKey && document.activeElement === last) {
+    event.preventDefault()
+    first.focus()
+  }
+}
+
+onMounted(async () => {
+  trigger = document.activeElement instanceof HTMLElement ? document.activeElement : null
+  await nextTick()
+  focusableElements()[0]?.focus()
+})
+
+onBeforeUnmount(() => trigger?.focus())
 </script>
 
 <template>
   <div class="confirmation-dialog__backdrop" @click.self="emit('cancel')">
     <section
+      ref="dialog"
       class="confirmation-dialog"
       role="dialog"
       aria-modal="true"
       :aria-labelledby="titleId"
       :aria-describedby="descriptionId"
+      @keydown="handleKeydown"
     >
       <header>
         <h2 :id="titleId">{{ title }}</h2>
@@ -46,8 +89,8 @@ const descriptionId = `${dialogId}-description`
 
 <style scoped>
 .confirmation-dialog__backdrop {
-  position: absolute;
-  z-index: 10;
+  position: fixed;
+  z-index: 1000;
   display: grid;
   inset: 0;
   padding: 24px;
