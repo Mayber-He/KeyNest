@@ -39,12 +39,14 @@ withDefaults(
 }
 
 .app-button--primary {
-  background: var(--color-brand);
-  color: #ffffff;
+  border-color: var(--color-brand);
+  border-width: 2px;
+  background: var(--color-surface);
+  color: var(--color-text);
 }
 
 .app-button--primary:hover:not(:disabled) {
-  opacity: 0.9;
+  box-shadow: inset 0 0 0 1px var(--color-brand);
 }
 
 .app-button--secondary {
@@ -63,11 +65,12 @@ withDefaults(
 }
 
 .app-button--danger {
-  color: var(--color-danger);
+  border-color: var(--color-danger);
+  color: var(--color-text);
 }
 
 .app-button--danger:hover:not(:disabled) {
-  background: rgba(239, 68, 68, 0.08);
+  box-shadow: inset 0 0 0 1px var(--color-danger);
 }
 
 .app-button:disabled {

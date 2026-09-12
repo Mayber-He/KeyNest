@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import { computed, useId } from 'vue'
 
+defineOptions({ inheritAttrs: false })
+
 const props = withDefaults(
   defineProps<{
     modelValue?: string
@@ -35,6 +37,7 @@ const describedBy = computed(() => (props.error || props.hint ? messageId : unde
   <label class="app-input">
     <span v-if="label" class="app-input__label">{{ label }}</span>
     <input
+      v-bind="$attrs"
       :id="inputId"
       class="app-input__control"
       :class="{ 'app-input__control--error': error }"
@@ -104,6 +107,7 @@ const describedBy = computed(() => (props.error || props.hint ? messageId : unde
 }
 
 .app-input__message--error {
-  color: var(--color-danger);
+  color: var(--color-text);
+  font-weight: 560;
 }
 </style>
