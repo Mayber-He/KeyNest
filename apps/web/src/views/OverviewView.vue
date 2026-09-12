@@ -56,7 +56,6 @@ const title = computed(() => pageTitles[page.value])
       <span class="page-placeholder__mark" aria-hidden="true"><KeyRound :size="25" /></span>
       <p>KeyNest</p>
       <h2>{{ title }}</h2>
-      <span>页面内容将在下一阶段组合</span>
     </section>
   </GalleryShell>
 </template>
@@ -101,12 +100,6 @@ const title = computed(() => pageTitles[page.value])
   margin: 0;
   font-size: clamp(25px, 4vw, 36px);
   letter-spacing: -0.035em;
-}
-
-.page-placeholder > span:last-child {
-  margin-top: 12px;
-  color: var(--color-text-secondary);
-  font-size: 13px;
 }
 
 .vault-detail {

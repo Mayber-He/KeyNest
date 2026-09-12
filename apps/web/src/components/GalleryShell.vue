@@ -141,7 +141,8 @@ const viewports: ReadonlyArray<{
 
 .gallery-shell__viewports button,
 .gallery-shell__pages button {
-  min-height: 36px;
+  min-width: 44px;
+  min-height: 44px;
   border: 0;
   background: transparent;
   color: var(--color-text-secondary);
@@ -164,7 +165,7 @@ const viewports: ReadonlyArray<{
 
 .gallery-shell__pages {
   width: min(1180px, 100%);
-  margin: 22px auto 16px;
+  margin: 18px auto 16px;
   gap: 4px;
   overflow-x: auto;
   scrollbar-width: thin;

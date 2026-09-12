@@ -47,7 +47,7 @@ const sections = [
 
 .app-sidebar__add {
   display: flex;
-  min-height: 42px;
+  min-height: 44px;
   margin: 28px 0 14px;
   padding: 0 12px;
   border: 1px solid var(--color-border);
@@ -66,7 +66,7 @@ const sections = [
 
 .app-sidebar a {
   display: flex;
-  min-height: 42px;
+  min-height: 44px;
   padding: 0 11px;
   border-radius: 9px;
   align-items: center;
