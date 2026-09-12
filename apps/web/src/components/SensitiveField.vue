@@ -79,10 +79,29 @@ const revealed = ref(false)
   border-radius: var(--radius-sm);
   background: transparent;
   color: var(--color-text-secondary);
+  transition:
+    background-color 160ms ease,
+    color 160ms ease,
+    transform 120ms ease;
 }
 
 .sensitive-field__action:hover {
   background: var(--color-surface);
   color: var(--color-text);
+}
+
+.sensitive-field__action:active {
+  transform: scale(0.94);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sensitive-field__action {
+    transition: none;
+  }
+
+  .sensitive-field__action:active {
+    transform: none;
+    box-shadow: inset 0 0 0 2px currentColor;
+  }
 }
 </style>

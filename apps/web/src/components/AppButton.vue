@@ -23,6 +23,7 @@ withDefaults(
 
 <style scoped>
 .app-button {
+  min-width: 44px;
   min-height: 44px;
   padding: 0 16px;
   border: 1px solid transparent;
@@ -33,7 +34,8 @@ withDefaults(
   transition:
     background-color 160ms ease,
     border-color 160ms ease,
-    color 160ms ease;
+    color 160ms ease,
+    transform 120ms ease;
 }
 
 .app-button--primary {
@@ -42,7 +44,7 @@ withDefaults(
 }
 
 .app-button--primary:hover:not(:disabled) {
-  background: var(--color-brand-hover);
+  opacity: 0.9;
 }
 
 .app-button--secondary {
@@ -70,5 +72,20 @@ withDefaults(
 
 .app-button:disabled {
   opacity: 0.48;
+}
+
+.app-button:active:not(:disabled) {
+  transform: translateY(1px);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .app-button {
+    transition: none;
+  }
+
+  .app-button:active:not(:disabled) {
+    transform: none;
+    box-shadow: inset 0 0 0 2px currentColor;
+  }
 }
 </style>
