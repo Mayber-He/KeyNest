@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
 
+import '../features/generator/generator_page.dart';
+import '../features/home/home_page.dart';
+import '../features/settings/settings_page.dart';
+import '../features/vault/vault_page.dart';
 import '../shared/widgets/app_bottom_navigation.dart';
 import 'device_frame.dart';
 
@@ -53,30 +57,12 @@ class _ProductPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (index == 0) {
-      return const _HomeProductPage();
-    }
-
-    const titles = ['密码库', '生成器', '设置'];
-    return Center(child: Text(titles[index - 1]));
-  }
-}
-
-class _HomeProductPage extends StatelessWidget {
-  const _HomeProductPage();
-
-  @override
-  Widget build(BuildContext context) {
-    return ListView(
-      padding: const EdgeInsets.all(24),
-      children: [
-        Text('下午好', style: Theme.of(context).textTheme.headlineMedium),
-        const SizedBox(height: 8),
-        Text(
-          '欢迎回到 KeyNest',
-          style: Theme.of(context).textTheme.bodyLarge,
-        ),
-      ],
-    );
+    return switch (index) {
+      0 => const HomePage(),
+      1 => const VaultPage(),
+      2 => const GeneratorPage(),
+      3 => const SettingsPage(),
+      _ => const HomePage(),
+    };
   }
 }

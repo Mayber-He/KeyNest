@@ -4,7 +4,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:keynest_mobile/gallery/overview_page.dart';
 
 void main() {
-  testWidgets('selecting 首页 shows the home product page in the device frame',
+  testWidgets('bottom navigation renders each real page in the device frame',
       (tester) async {
     await tester.pumpWidget(
       const MaterialApp(
@@ -12,17 +12,26 @@ void main() {
       ),
     );
 
-    final homeDestination = find.text('首页');
-    await tester.ensureVisible(homeDestination);
-    await tester.tap(homeDestination);
-    await tester.pump();
-
     final productFrame = find.byKey(const Key('product-frame'));
-    expect(find.descendant(of: productFrame, matching: find.text('下午好')),
-        findsOneWidget);
-    expect(
-      find.descendant(of: productFrame, matching: find.text('KeyNest 界面概览')),
-      findsNothing,
-    );
+
+    final destinations = <String, String>{
+      '首页': '下午好',
+      '密码库': 'GitHub',
+      '生成器': '密码强度：强',
+      '设置': '保存设置',
+    };
+
+    for (final entry in destinations.entries) {
+      final destination = find.text(entry.key);
+      await tester.ensureVisible(destination);
+      await tester.tap(destination);
+      await tester.pumpAndSettle();
+
+      expect(
+        find.descendant(of: productFrame, matching: find.text(entry.value)),
+        findsOneWidget,
+        reason: '${entry.key} should render its real page',
+      );
+    }
   });
 }
